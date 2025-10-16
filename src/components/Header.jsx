@@ -1,10 +1,11 @@
 import React from 'react';
-import {Navlink} from 'react-router';
+import {NavLink} from 'react-router-dom';
 
 const Header = () =>{
     return(
        <nav>
-     <Navlink to="/"> Home</Navlink>
+           <NavLink to="/"> Home</NavLink>
+            <NavLink to="/login"> Login </NavLink>
         </nav>
     );
 };
