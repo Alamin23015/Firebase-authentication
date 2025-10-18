@@ -1,10 +1,11 @@
-import { GoogleAuthProvider, signInWithPopup ,signOut} from 'firebase/auth';
+import { GoogleAuthProvider,GithubAuthProvider, signInWithPopup ,signOut} from 'firebase/auth';
 
 import React ,{useState} from 'react';
 import {NavLink} from 'react-router';
 import { auth } from '../firebase/firebase.init';
 
 const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 const Login = () =>{
     const [user,setUser]=useState(null);
 
@@ -20,6 +21,16 @@ const Login = () =>{
         .catch(error=>{
             console.log(error);
 
+        })
+    }
+    const handleGithubSignIn = ()=>{
+        signInWithPopup(auth,githubProvider)
+        .then( (result=>{
+            console.log(result.user)
+            setUser(result.user)
+        }))
+        .catch(error =>{
+            console.log(error)
         })
     }
     const handleSignOut = () =>{
@@ -42,7 +53,13 @@ const Login = () =>{
      {/* <button onClick={handleGoogleSignIn}> Sign in with google</button>
      <button onClick={handleSignOut}>Sign Out</button> */}
      {
-        user ? <button onClick={handleGoogleSignIn}> Sign in with google</button> : <button onClick={handleSignOut}>Sign Out</button> 
+        user ?
+         <button onClick={handleSignOut}>Sign Out</button> :
+         <>
+         <button onClick={handleGoogleSignIn}> Sign in with google</button> 
+
+         <button onClick={handleGithubSignIn}> Sign in with Github</button> 
+         </>
      }
     { user && <div>
         <h3>{user?.displayName}</h3>
@@ -50,6 +67,7 @@ const Login = () =>{
         <img src={user.photoURL} alt="" />
      </div>}
         </div>
+
     );
 };
 
